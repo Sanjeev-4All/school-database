@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>school_db - Greenfield High School</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Lucide icons via CDN for crisp UI icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand-section">
+        <div class="brand-logo-icon"><i data-lucide="database" style="width: 18px; height: 18px;"></i></div>
+        <div class="brand-title">
+          <h1>school_db</h1>
+          <span>DATABASE SYSTEM</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <a class="nav-link active" data-view="dashboard">
+          <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+        <a class="nav-link" data-view="students">
+          <i data-lucide="users"></i> Students
+        </a>
+        <a class="nav-link" data-view="attendance">
+          <i data-lucide="calendar-check"></i> Attendance
+        </a>
+        <a class="nav-link" data-view="academics">
+          <i data-lucide="graduation-cap"></i> Academics
+        </a>
+        <a class="nav-link" data-view="examinations">
+          <i data-lucide="file-check"></i> Examinations
+        </a>
+        <a class="nav-link" data-view="finance">
+          <i data-lucide="wallet"></i> Finance
+        </a>
+        <a class="nav-link" data-view="teachers">
+          <i data-lucide="user-check"></i> Teachers
+        </a>
+        <a class="nav-link" data-view="classes">
+          <i data-lucide="layout-grid"></i> Classes
+        </a>
+        <a class="nav-link" data-view="communication">
+          <i data-lucide="message-square"></i> Communication
+        </a>
+        <a class="nav-link" data-view="transport">
+          <i data-lucide="bus"></i> Transport
+        </a>
+        <a class="nav-link" data-view="library">
+          <i data-lucide="book-open"></i> Library
+        </a>
+        <a class="nav-link" data-view="reports">
+          <i data-lucide="file-text"></i> Reports
+        </a>
+        <a class="nav-link" data-view="settings">
+          <i data-lucide="settings"></i> Settings
+        </a>
+
+        <div class="nav-divider">SHORTCUTS</div>
+        <a class="nav-link" id="shortcutAddStudent">
+          <i data-lucide="user-plus"></i> Add Student
+        </a>
+        <a class="nav-link" id="shortcutMarkAttendance">
+          <i data-lucide="check-square"></i> Mark Attendance
+        </a>
+        <a class="nav-link" id="shortcutCreateAnnouncement">
+          <i data-lucide="megaphone"></i> Create Announcement
+        </a>
+        <a class="nav-link" id="shortcutGenerateReport">
+          <i data-lucide="file-spreadsheet"></i> Generate Report
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="school-profile-badge">
+          <div class="school-crest">🛡️</div>
+          <div class="school-info">
+            <div class="school-name" id="sidebarSchoolName">Greenfield High School</div>
+            <div class="school-session" id="sidebarSession">2024/2025 Academic Session ▾</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <h2 id="pageTitle">School Overview</h2>
+          <p id="pageSubtitle">Welcome back, Admin 👋</p>
+        </div>
+
+        <div class="header-right">
+          <!-- Search box -->
+          <div class="search-box">
+            <i data-lucide="search" style="width: 15px; color: var(--text-muted);"></i>
+            <input type="text" id="globalSearchInput" placeholder="Search students, staff, classes...">
+            <span class="search-shortcut">⌘ K</span>
+          </div>
+
+          <!-- Term pill -->
+          <div class="term-pill">
+            <span>This Term</span>
+            <i data-lucide="chevron-down" style="width: 14px;"></i>
+          </div>
+
+          <!-- Notification Bell -->
+          <button class="icon-btn" title="Notifications" id="btnNotifications">
+            <i data-lucide="bell" style="width: 19px;"></i>
+            <span class="badge-dot"></span>
+          </button>
+
+          <!-- User profile -->
+          <div class="user-profile" id="userProfileBtn">
+            <div class="avatar-circle" id="userAvatarLetter">A</div>
+            <div class="user-info">
+              <span class="user-name" id="userDisplayName">Admin User</span>
+              <span class="user-role" id="userDisplayRole">Super Admin</span>
+            </div>
+            <i data-lucide="chevron-down" style="width: 14px; color: var(--text-muted);"></i>
+          </div>
+
+          <!-- User Dropdown Menu -->
+          <div class="user-menu-dropdown" id="userMenuDropdown">
+            <div class="user-menu-header">
+              <h4 id="menuUserName">Admin User</h4>
+              <p id="menuUserEmail">admin@greenfield.edu</p>
+              <span class="status-badge badge-active" id="menuUserRoleBadge" style="margin-top: 6px;">Super Admin</span>
+            </div>
+            <div class="user-menu-links">
+              <button class="user-menu-item" id="btnOpenAuthModal">
+                <i data-lucide="key" style="width: 15px;"></i> Security & Switch Account
+              </button>
+              <button class="user-menu-item logout" id="btnLogout">
+                <i data-lucide="log-out" style="width: 15px;"></i> Log Out
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT AREA -->
+      <main class="page-content">
+        
+        <!-- ================= VIEW 1: DASHBOARD (MAIN OVERVIEW) ================= -->
+        <section id="viewDashboard" class="content-view active">
+          
+          <!-- 5 TOP KPI CARDS -->
+          <div class="kpi-grid">
+            <!-- 1. Total Students -->
+            <div class="kpi-card">
+              <div class="kpi-icon orange">
+                <i data-lucide="users"></i>
+              </div>
+              <div class="kpi-details">
+                <div class="kpi-label">Total Students</div>
+                <div class="kpi-value" id="kpiTotalStudents">1,284</div>
+                <div class="kpi-sub positive" id="kpiStudentsChange">↑ 12 this term</div>
+              </div>
+            </div>
+
+            <!-- 2. Attendance Rate -->
+            <div class="kpi-card">
+              <div class="kpi-icon green">
+                <i data-lucide="calendar-check"></i>
+              </div>
+              <div class="kpi-details">
+                <div class="kpi-label">Attendance Rate</div>
+                <div class="kpi-value" id="kpiAttendanceRate">96.4%</div>
+                <div class="kpi-sub positive" id="kpiAttendanceChange">↑ 2.7% vs last term</div>
+              </div>
+            </div>
+
+            <!-- 3. Fee Collection -->
+            <div class="kpi-card">
+              <div class="kpi-icon gold">
+                <i data-lucide="wallet"></i>
+              </div>
+              <div class="kpi-details">
+                <div class="kpi-label">Fee Collection</div>
+                <div class="kpi-value" id="kpiFeeCollection">84%</div>
+                <div class="kpi-sub muted" id="kpiFeeDetail">₦12.4M of ₦14.8M</div>
+                <div class="kpi-progress">
+                  <div class="kpi-progress-bar" id="kpiFeeBar" style="width: 84%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Total Staff -->
+            <div class="kpi-card">
+              <div class="kpi-icon blue">
+                <i data-lucide="user-check"></i>
+              </div>
+              <div class="kpi-details">
+                <div class="kpi-label">Total Staff</div>
+                <div class="kpi-value" id="kpiTotalStaff">86</div>
+                <div class="kpi-sub positive" id="kpiStaffStatus">● 48 online</div>
+              </div>
+            </div>
+
+            <!-- 5. Active Classes -->
+            <div class="kpi-card">
+              <div class="kpi-icon purple">
+                <i data-lucide="book-open"></i>
+              </div>
+              <div class="kpi-details">
+                <div class="kpi-label">Active Classes</div>
+                <div class="kpi-value" id="kpiActiveClasses">134</div>
+                <div class="kpi-sub muted" id="kpiClassesDetail">Across all levels</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MIDDLE SECTION: ATTENDANCE OVERVIEW + SCHOOL_DB AI ASSISTANT -->
+          <div class="middle-grid" style="margin-top: 20px;">
+            
+            <!-- ATTENDANCE OVERVIEW MATRIX -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title">Attendance Overview</div>
+                <div class="card-actions">
+                  <select id="attendanceWeekSelect">
+                    <option>This Week</option>
+                    <option>Last Week</option>
+                    <option>This Month</option>
+                  </select>
+                  <button class="link-btn" id="btnViewFullAttendance">View full report</button>
+                </div>
+              </div>
+
+              <div style="overflow-x: auto;">
+                <table class="attendance-table">
+                  <thead>
+                    <tr>
+                      <th>Class / Day</th>
+                      <th>Mon</th>
+                      <th>Tue</th>
+                      <th>Wed</th>
+                      <th>Thu</th>
+                      <th>Fri</th>
+                      <th>Sat</th>
+                      <th>Present</th>
+                      <th>Late</th>
+                      <th>Absent</th>
+                      <th>Rate</th>
+                    </tr>
+                  </thead>
+                  <tbody id="attendanceMatrixBody">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Legend -->
+              <div class="attendance-legend">
+                <div class="legend-item">
+                  <div class="legend-color" style="background: #84D79E;"></div>
+                  <span>Present</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: #F8CB68;"></div>
+                  <span>Late</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: #F78E8E;"></div>
+                  <span>Absent</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color" style="background: #E2E8F0;"></div>
+                  <span>No Data</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- SCHOOL_DB AI ASSISTANT -->
+            <div class="ai-assistant-card">
+              <div class="card-header">
+                <div class="card-title">
+                  <i data-lucide="sparkles" style="color: #D9943B; width: 17px;"></i>
+                  <span>school_db AI Assistant</span>
+                  <span class="ai-header-badge">BETA</span>
+                </div>
+                <i data-lucide="x" style="width: 15px; color: var(--text-muted); cursor: pointer;"></i>
+              </div>
+
+              <div class="ai-body">
+                <div class="ai-intro">Here are key insights for today</div>
+
+                <div id="aiInsightsList" style="display: flex; flex-direction: column; gap: 8px;">
+                  <!-- Populated via JS -->
+                </div>
+
+                <button class="btn-ai-action" id="btnGenerateAiReport">
+                  <i data-lucide="sparkles" style="width: 15px;"></i>
+                  <span>Generate AI Report →</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTTOM SECTION: 4 CARDS (FEE, PERFORMANCE, EVENTS, STAFF) -->
+          <div class="bottom-grid" style="margin-top: 20px;">
+            
+            <!-- 1. Fee Collection Summary -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title">Fee Collection Summary</div>
+                <div class="card-actions">
+                  <select id="feePeriodSelect">
+                    <option>This Month</option>
+                    <option>This Term</option>
+                    <option>Full Session</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="fee-chart-box">
+                <div class="fee-headline">
+                  <div class="fee-large-amount" id="feeLargeAmount">
+                    ₦12,400,000
+                    <span>of ₦14,800,000 collected</span>
+                  </div>
+                  <div class="mini-circle-stat">
+                    <span id="feeProgressDonutVal">84%</span>
+                  </div>
+                </div>
+
+                <!-- 4 Weekly Bars -->
+                <div class="fee-bars-container">
+                  <div class="bar-col">
+                    <div class="bar-fill" style="height: 40%;" title="Week 1: ₦2.8M"></div>
+                    <span class="bar-label">Week 1</span>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar-fill" style="height: 65%;" title="Week 2: ₦4.5M"></div>
+                    <span class="bar-label">Week 2</span>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar-fill" style="height: 85%;" title="Week 3: ₦6.1M"></div>
+                    <span class="bar-label">Week 3</span>
+                  </div>
+                  <div class="bar-col">
+                    <div class="bar-fill" style="height: 100%;" title="Week 4: ₦7.2M"></div>
+                    <span class="bar-label">Week 4</span>
+                  </div>
+                </div>
+
+                <!-- Numerical details -->
+                <div class="fee-breakdown-table">
+                  <div class="fee-breakdown-row">
+                    <span>Amount Collected</span>
+                    <strong id="feeCollectedText">₦12,400,000</strong>
+                  </div>
+                  <div class="fee-breakdown-row">
+                    <span>Total Expected</span>
+                    <strong id="feeExpectedText">₦14,800,000</strong>
+                  </div>
+                  <div class="fee-breakdown-row">
+                    <span>Balance</span>
+                    <strong id="feeBalanceText" style="color: #E53E3E;">₦2,400,000</strong>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button class="link-btn" id="btnViewFinanceReport">View finance report →</button>
+              </div>
+            </div>
+
+            <!-- 2. Student Performance Overview -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title">Student Performance Overview</div>
+                <div class="card-actions">
+                  <select>
+                    <option>This Term</option>
+                    <option>Last Term</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="performance-body">
+                <!-- Donut Chart -->
+                <div class="donut-chart-container">
+                  <svg width="105" height="105" viewBox="0 0 36 36" class="donut-svg">
+                    <path class="donut-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E2E8F0" stroke-width="4"/>
+                    <!-- Green segment (Excellent & Good: 60%) -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#38A169" stroke-width="4" stroke-dasharray="60, 100"/>
+                    <!-- Orange/Yellow segment (Average & Below: 35%) -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#ED8936" stroke-width="4" stroke-dasharray="35, 100" stroke-dashoffset="-60"/>
+                    <!-- Red segment (Poor: 5%) -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E53E3E" stroke-width="4" stroke-dasharray="5, 100" stroke-dashoffset="-95"/>
+                  </svg>
+                  <div class="donut-center-text">
+                    <span class="pct">72%</span>
+                    <span class="desc">Average Performance</span>
+                  </div>
+                </div>
+
+                <!-- Legend Breakdown -->
+                <div class="stat-legend-list">
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #38A169;"></span> Excellent</div>
+                    <span class="stat-val">28%</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #48BB78;"></span> Good</div>
+                    <span class="stat-val">32%</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #ECC94B;"></span> Average</div>
+                    <span class="stat-val">25%</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #ED8936;"></span> Below Average</div>
+                    <span class="stat-val">10%</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #E53E3E;"></span> Poor</div>
+                    <span class="stat-val">5%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button class="link-btn" id="btnViewAcademicReport">View academic report →</button>
+              </div>
+            </div>
+
+            <!-- 3. Upcoming Events -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title">Upcoming Events</div>
+                <div class="card-actions">
+                  <button class="link-btn" id="btnViewAllEvents">View all</button>
+                </div>
+              </div>
+
+              <div class="events-body" id="upcomingEventsContainer">
+                <!-- Populated via JS -->
+              </div>
+
+              <div class="card-footer">
+                <button class="link-btn" id="btnCreateEventQuick">+ Add calendar event</button>
+              </div>
+            </div>
+
+            <!-- 4. Staff Overview -->
+            <div class="dashboard-card">
+              <div class="card-header">
+                <div class="card-title">Staff Overview</div>
+                <div class="card-actions">
+                  <button class="link-btn" id="btnViewStaffTop">View all</button>
+                </div>
+              </div>
+
+              <div class="performance-body">
+                <!-- Donut Chart -->
+                <div class="donut-chart-container">
+                  <svg width="105" height="105" viewBox="0 0 36 36" class="donut-svg">
+                    <path class="donut-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E2E8F0" stroke-width="4"/>
+                    <!-- Blue: Teaching 67% -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#3182CE" stroke-width="4" stroke-dasharray="67, 100"/>
+                    <!-- Green: Non-Teaching 23% -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#38A169" stroke-width="4" stroke-dasharray="23, 100" stroke-dashoffset="-67"/>
+                    <!-- Purple: Support 10% -->
+                    <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#805AD5" stroke-width="4" stroke-dasharray="10, 100" stroke-dashoffset="-90"/>
+                  </svg>
+                  <div class="donut-center-text">
+                    <span class="pct">86</span>
+                    <span class="desc">Total Staff</span>
+                  </div>
+                </div>
+
+                <!-- Legend Breakdown -->
+                <div class="stat-legend-list">
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #3182CE;"></span> Teaching Staff</div>
+                    <span class="stat-val">58 (67%)</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #38A169;"></span> Non-Teaching</div>
+                    <span class="stat-val">20 (23%)</span>
+                  </div>
+                  <div class="stat-legend-row">
+                    <div class="stat-legend-item"><span class="stat-dot" style="background: #805AD5;"></span> Support Staff</div>
+                    <span class="stat-val">8 (10%)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <button class="link-btn" id="btnViewStaffDirectory">View staff directory →</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 2: STUDENTS DIRECTORY ================= -->
+        <section id="viewStudents" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Student Management Directory</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage admissions, enrolled students, guardians, attendance, and records.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddStudentModal">
+              <i data-lucide="user-plus" style="width: 14px; margin-right: 6px;"></i> Enroll New Student
+            </button>
+          </div>
+
+          <!-- Filters bar -->
+          <div class="dashboard-card" style="padding: 14px 20px; margin-bottom: 20px; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px;">
+            <div style="display: flex; gap: 12px; flex: 1;">
+              <input type="text" id="studentSearchFilter" placeholder="Search by student name or ID..." style="border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; width: 300px; font-size: 13px;">
+              <select id="studentClassFilter" style="border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 13px;">
+                <option value="all">All Classes (1st - 12th)</option>
+                <option value="1st Class">1st Class</option>
+                <option value="2nd Class">2nd Class</option>
+                <option value="3rd Class">3rd Class</option>
+                <option value="4th Class">4th Class</option>
+                <option value="5th Class">5th Class</option>
+                <option value="6th Class">6th Class</option>
+                <option value="7th Class">7th Class</option>
+                <option value="8th Class">8th Class</option>
+                <option value="9th Class">9th Class</option>
+                <option value="10th Class">10th Class</option>
+                <option value="11th Class">11th Class</option>
+                <option value="12th Class">12th Class</option>
+              </select>
+            </div>
+            <div id="studentCountBadge" style="font-size: 12px; font-weight: 600; color: var(--text-muted);">Showing 10 students</div>
+          </div>
+
+          <!-- Students Table -->
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Full Name</th>
+                  <th>Class</th>
+                  <th>Roll #</th>
+                  <th>Gender</th>
+                  <th>Guardian</th>
+                  <th>Attendance</th>
+                  <th>Performance</th>
+                  <th>Fee Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="studentsTableBody">
+                <!-- Dynamically loaded -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 3: STAFF / TEACHERS DIRECTORY ================= -->
+        <section id="viewTeachers" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Faculty & Staff Directory</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage academic teachers, administrative officers, and support staff.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddStaffModal">
+              <i data-lucide="user-plus" style="width: 14px; margin-right: 6px;"></i> Add Staff Member
+            </button>
+          </div>
+
+          <!-- Staff Table -->
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Staff ID</th>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Designation</th>
+                  <th>Department</th>
+                  <th>Assigned Classes</th>
+                  <th>Status</th>
+                  <th>Contact Email</th>
+                </tr>
+              </thead>
+              <tbody id="staffTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 4: FINANCE & INVOICES ================= -->
+        <section id="viewFinance" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">School Fees & Finance Ledger</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Track tuition fee collection, outstanding balances, and payment transactions.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenRecordPaymentModal">
+              <i data-lucide="plus-circle" style="width: 14px; margin-right: 6px;"></i> Record Fee Payment
+            </button>
+          </div>
+
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Invoice #</th>
+                  <th>Student Name</th>
+                  <th>Class</th>
+                  <th>Fee Type</th>
+                  <th>Total Amount</th>
+                  <th>Paid Amount</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                  <th>Payment Method</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="feesTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 5: ATTENDANCE TRACKER ================= -->
+        <section id="viewAttendance" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Daily & Weekly Attendance Register</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Record class rolls, view presence rates, and identify at-risk students.</p>
+            </div>
+            <button class="btn-primary" id="btnQuickMarkAttendance">
+              <i data-lucide="check-circle" style="width: 14px; margin-right: 6px;"></i> Update Class Roll
+            </button>
+          </div>
+
+          <div class="dashboard-card" style="padding: 20px;">
+            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 14px;">Current Class Attendance Summary</h4>
+            <div id="attendanceTrackerCards" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+              <!-- Cards for each class -->
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW: ACADEMICS & TIMETABLE ================= -->
+        <section id="viewAcademics" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Academic Curriculum & Timetable</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage educational subjects, syllabus completion milestones, and weekly class timetables.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddSubjectModal">
+              <i data-lucide="plus" style="width: 14px; margin-right: 6px;"></i> Add New Subject
+            </button>
+          </div>
+
+          <!-- Sub Tabs -->
+          <div class="sub-nav-tabs">
+            <button class="sub-nav-tab active" id="tabAcademicsSubjects" onclick="switchAcademicTab('subjects')">Subjects & Syllabus</button>
+            <button class="sub-nav-tab" id="tabAcademicsTimetable" onclick="switchAcademicTab('timetable')">Class Timetable Planner</button>
+          </div>
+
+          <!-- TAB 1: SUBJECTS -->
+          <div id="academicTabSubjectsContent">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Subject Name</th>
+                    <th>Department</th>
+                    <th>Assigned Teacher</th>
+                    <th>Weekly Periods</th>
+                    <th>Syllabus Completion</th>
+                    <th>Target Classes</th>
+                  </tr>
+                </thead>
+                <tbody id="subjectsTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 2: TIMETABLE -->
+          <div id="academicTabTimetableContent" style="display: none;">
+            <div class="dashboard-card" style="padding: 16px 20px; margin-bottom: 16px; flex-direction: row; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 12px;">
+                <label style="font-size: 13px; font-weight: 600;">Select Class Schedule:</label>
+                <select id="timetableClassSelect" style="border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 13px;">
+                  <option value="1st Class">1st Class</option>
+                  <option value="2nd Class">2nd Class</option>
+                  <option value="3rd Class">3rd Class</option>
+                  <option value="4th Class">4th Class</option>
+                  <option value="5th Class">5th Class</option>
+                  <option value="6th Class">6th Class</option>
+                  <option value="7th Class">7th Class</option>
+                  <option value="8th Class">8th Class</option>
+                  <option value="9th Class">9th Class</option>
+                  <option value="10th Class">10th Class</option>
+                  <option value="11th Class">11th Class</option>
+                  <option value="12th Class">12th Class</option>
+                </select>
+              </div>
+              <div style="font-size: 12px; color: var(--text-muted);">Schedule: 6 Periods / Day (Monday – Friday)</div>
+            </div>
+
+            <div class="timetable-container">
+              <table class="timetable-table">
+                <thead>
+                  <tr id="timetableHeaderRow">
+                    <th>Day</th>
+                    <th>Period 1<br><span style="font-size: 10px; font-weight: normal;">08:15 - 09:00</span></th>
+                    <th>Period 2<br><span style="font-size: 10px; font-weight: normal;">09:00 - 09:45</span></th>
+                    <th>Period 3<br><span style="font-size: 10px; font-weight: normal;">10:15 - 11:00</span></th>
+                    <th>Period 4<br><span style="font-size: 10px; font-weight: normal;">11:00 - 11:45</span></th>
+                    <th>Period 5<br><span style="font-size: 10px; font-weight: normal;">12:30 - 01:15</span></th>
+                    <th>Period 6<br><span style="font-size: 10px; font-weight: normal;">01:15 - 02:00</span></th>
+                  </tr>
+                </thead>
+                <tbody id="timetableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 6: CLASSES & CURRICULUM ================= -->
+        <section id="viewClasses" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Classes & Academic Arms</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Active classrooms, assigned form teachers, and enrollment capacities.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddClassModal">
+              <i data-lucide="plus" style="width: 14px; margin-right: 6px;"></i> Create New Class
+            </button>
+          </div>
+
+          <div id="classesGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px;">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ================= VIEW 7: EXAMINATIONS & GRADEBOOK ================= -->
+        <section id="viewExaminations" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Examinations, Gradebook & Report Cards</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage exam schedules, input subject scores, and generate terminal student report cards.</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-secondary" id="btnOpenRecordMarksModal">
+                <i data-lucide="edit-3" style="width: 14px; margin-right: 6px;"></i> Record Marks
+              </button>
+              <button class="btn-primary" id="btnOpenScheduleExamModal">
+                <i data-lucide="calendar-plus" style="width: 14px; margin-right: 6px;"></i> Schedule New Exam
+              </button>
+            </div>
+          </div>
+
+          <div class="summary-grid" id="examSummary"></div>
+
+          <!-- Sub Tabs -->
+          <div class="sub-nav-tabs">
+            <button class="sub-nav-tab active" id="tabExamsSchedule" onclick="switchExamTab('schedule')">Assessment Schedules</button>
+            <button class="sub-nav-tab" id="tabExamsGradebook" onclick="switchExamTab('gradebook')">Student Gradebook & Terminal Marks</button>
+          </div>
+
+          <!-- TAB 1: EXAM SCHEDULE -->
+          <div id="examTabScheduleContent">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Examination</th>
+                    <th>Term / Session</th>
+                    <th>Target Classes</th>
+                    <th>Dates</th>
+                    <th>Subjects Included</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="examsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 2: GRADEBOOK -->
+          <div id="examTabGradebookContent" style="display: none;">
+            <div class="dashboard-card" style="padding: 14px 20px; margin-bottom: 16px; flex-direction: row; align-items: center; justify-content: space-between;">
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <label style="font-size: 12.5px; font-weight: 600;">Filter by Class:</label>
+                <select id="gradebookClassFilter" style="border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 6px; font-size: 12.5px;">
+                  <option value="all">All Classes (1st - 12th)</option>
+                  <option value="1st Class">1st Class</option>
+                  <option value="2nd Class">2nd Class</option>
+                  <option value="3rd Class">3rd Class</option>
+                  <option value="4th Class">4th Class</option>
+                  <option value="5th Class">5th Class</option>
+                  <option value="6th Class">6th Class</option>
+                  <option value="7th Class">7th Class</option>
+                  <option value="8th Class">8th Class</option>
+                  <option value="9th Class">9th Class</option>
+                  <option value="10th Class">10th Class</option>
+                  <option value="11th Class">11th Class</option>
+                  <option value="12th Class">12th Class</option>
+                </select>
+              </div>
+              <span style="font-size: 12px; color: var(--text-muted);">Click "Report Card" to preview and print official student reports</span>
+            </div>
+
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Total Score</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                    <th>Rank</th>
+                    <th>Teacher Remarks</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="gradebookTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 8: LIBRARY & LENDING ================= -->
+        <section id="viewLibrary" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Library & Learning Resource Center</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage textbooks, literature catalogue, shelf allocations, and student book borrow/return transactions.</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn-secondary" id="btnOpenIssueBookModal">
+                <i data-lucide="book-open" style="width: 14px; margin-right: 6px;"></i> Issue Book to Student
+              </button>
+              <button class="btn-primary" id="btnOpenAddBookModal">
+                <i data-lucide="plus" style="width: 14px; margin-right: 6px;"></i> Add New Book
+              </button>
+            </div>
+          </div>
+
+          <div class="summary-grid" id="librarySummary"></div>
+
+          <!-- Sub Tabs -->
+          <div class="sub-nav-tabs">
+            <button class="sub-nav-tab active" id="tabLibraryCatalogue" onclick="switchLibraryTab('catalogue')">Book Catalogue & Shelves</button>
+            <button class="sub-nav-tab" id="tabLibraryLending" onclick="switchLibraryTab('lending')">Issued Books & Lending Ledger</button>
+          </div>
+
+          <!-- TAB 1: CATALOGUE -->
+          <div id="libraryTabCatalogueContent">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Category</th>
+                    <th>Available / Total Copies</th>
+                    <th>Shelf Location</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="libraryBooksTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- TAB 2: LENDING LEDGER -->
+          <div id="libraryTabLendingContent" style="display: none;">
+            <div class="data-table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Book Title</th>
+                    <th>Student Name</th>
+                    <th>Class</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="libraryLendingsTableBody">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 9: TRANSPORTATION & FLEET ================= -->
+        <section id="viewTransport" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">School Transport & Fleet Logistics</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Manage bus fleet, transit corridors, pickup checkpoints, driver contacts, and student transport allocations.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenAddTransportModal">
+              <i data-lucide="plus" style="width: 14px; margin-right: 6px;"></i> Add Transport Route
+            </button>
+          </div>
+
+          <!-- Transport Summary Cards -->
+          <div class="summary-grid" id="transportSummary"></div>
+
+          <!-- Transport Routes Cards Grid -->
+          <div class="transport-grid" id="transportRoutesGrid">
+            <!-- Populated via JS -->
+          </div>
+
+          <!-- Detailed Routes Table -->
+          <div class="data-table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Route #</th>
+                  <th>Route Name & Corridor</th>
+                  <th>Vehicle Plate</th>
+                  <th>Assigned Driver</th>
+                  <th>Driver Phone</th>
+                  <th>Passenger Capacity</th>
+                  <th>Monthly Fee</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="transportTableBody">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 10: COMMUNICATION & EVENTS ================= -->
+        <section id="viewCommunication" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">School Announcements & Calendar Events</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Broadcast notices to parents, teachers, and students across the school community.</p>
+            </div>
+            <button class="btn-primary" id="btnOpenCreateNoticeModal">
+              <i data-lucide="megaphone" style="width: 14px; margin-right: 6px;"></i> Post Announcement
+            </button>
+          </div>
+
+          <div id="noticesListGrid" style="display: flex; flex-direction: column; gap: 14px;">
+            <!-- Rendered by JS -->
+          </div>
+        </section>
+
+        <!-- ================= VIEW 11: REPORTS & DATA EXPORT CENTER ================= -->
+        <section id="viewReports" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Reports & Analytics Export Center</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Generate comprehensive statistical summaries and download standard CSV reports for official administration.</p>
+            </div>
+          </div>
+
+          <!-- 4 Report Cards with 1-Click CSV Exports -->
+          <div class="reports-hub-grid">
+            <div class="report-card-item">
+              <div class="report-card-icon" style="background: #EBF8FF; color: #2B6CB0;">
+                <i data-lucide="users"></i>
+              </div>
+              <h4>Student Enrollment Roster</h4>
+              <p>Complete student inventory including Student ID, Full Name, Class (1st - 12th), Gender, Guardian phone, Attendance %, and Fee standing.</p>
+              <button class="btn-export-csv" onclick="exportDataToCSV('students')">
+                <i data-lucide="download" style="width: 14px;"></i> Export Students (CSV)
+              </button>
+            </div>
+
+            <div class="report-card-item">
+              <div class="report-card-icon" style="background: #FEF3C7; color: #D97706;">
+                <i data-lucide="wallet"></i>
+              </div>
+              <h4>Tuition Fees & Defaulters Ledger</h4>
+              <p>Financial ledger breakdown showing invoice numbers, billed tuition, paid sums, outstanding balances, and payment statuses.</p>
+              <button class="btn-export-csv" onclick="exportDataToCSV('fees')">
+                <i data-lucide="download" style="width: 14px;"></i> Export Fee Ledger (CSV)
+              </button>
+            </div>
+
+            <div class="report-card-item">
+              <div class="report-card-icon" style="background: #E6F4EA; color: #22543D;">
+                <i data-lucide="calendar-check"></i>
+              </div>
+              <h4>Class Attendance Matrix</h4>
+              <p>Weekly and term attendance rates per class, detailing present headcount, late arrivals, absences, and overall presence percentage.</p>
+              <button class="btn-export-csv" onclick="exportDataToCSV('attendance')">
+                <i data-lucide="download" style="width: 14px;"></i> Export Attendance (CSV)
+              </button>
+            </div>
+
+            <div class="report-card-item">
+              <div class="report-card-icon" style="background: #F3E8FF; color: #6B46C1;">
+                <i data-lucide="user-check"></i>
+              </div>
+              <h4>Faculty & Staff Directory</h4>
+              <p>Roster of all academic instructors, administrative supervisors, and support staff with qualifications, departments, and active statuses.</p>
+              <button class="btn-export-csv" onclick="exportDataToCSV('staff')">
+                <i data-lucide="download" style="width: 14px;"></i> Export Faculty (CSV)
+              </button>
+            </div>
+          </div>
+
+          <div class="dashboard-card" style="padding: 20px;">
+            <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 12px;">Live Data Export Preview</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Select any of the modules above to immediately generate and download comma-separated value (CSV) spreadsheets compatible with Excel, Google Sheets, or any accounting system.</p>
+            <div id="reportsLivePreview" style="font-family: monospace; font-size: 11.5px; background: #FAF8F5; padding: 14px; border-radius: 6px; border: 1px dashed var(--border-color); color: var(--text-muted);">
+              Ready to generate reports. Click any "Export (CSV)" button above.
+            </div>
+          </div>
+        </section>
+
+        <!-- ================= VIEW 12: SETTINGS & CONFIGURATION ================= -->
+        <section id="viewSettings" class="content-view">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">School Profile & Database Settings</h3>
+              <p style="font-size: 12.5px; color: var(--text-muted);">Configure institution identity, academic terms, database backups, and system operational parameters.</p>
+            </div>
+            <button class="btn-secondary" onclick="exportFullDatabaseJson()">
+              <i data-lucide="hard-drive-download" style="width: 14px; margin-right: 6px;"></i> Download Full Backup (JSON)
+            </button>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Left Column: School Profile Form -->
+            <div class="dashboard-card" style="padding: 24px;">
+              <h4 style="font-size: 15px; font-weight: 700; margin-bottom: 16px;">Institution Information</h4>
+              <form id="formSchoolSettings">
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>School Name</label>
+                      <input type="text" name="schoolName" id="settingSchoolName" required>
+                    </div>
+                    <div class="form-group">
+                      <label>School Motto</label>
+                      <input type="text" name="motto" id="settingMotto">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Academic Session</label>
+                      <input type="text" name="academicSession" id="settingSession" required>
+                    </div>
+                    <div class="form-group">
+                      <label>Current Term</label>
+                      <select name="currentTerm" id="settingTerm">
+                        <option value="First Term">First Term</option>
+                        <option value="Second Term">Second Term</option>
+                        <option value="Third Term">Third Term</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Principal / Head of School</label>
+                      <input type="text" name="principalName" id="settingPrincipal">
+                    </div>
+                    <div class="form-group">
+                      <label>Official Email</label>
+                      <input type="email" name="email" id="settingEmail" required>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>Contact Phone</label>
+                      <input type="tel" name="phone" id="settingPhone">
+                    </div>
+                    <div class="form-group">
+                      <label>Campus Address</label>
+                      <input type="text" name="address" id="settingAddress">
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 10px; display: flex; justify-content: flex-end;">
+                    <button type="submit" class="btn-primary">
+                      <i data-lucide="save" style="width: 14px; margin-right: 6px;"></i> Save Profile Changes
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <!-- Right Column: System Health & Diagnostics -->
+            <div class="system-health-card">
+              <h4 style="font-size: 15px; font-weight: 700;">Database Diagnostics</h4>
+              <div id="settingsDiagnosticsList">
+                <div class="health-stat-row">
+                  <span>Database Engine</span>
+                  <strong id="diagDbEngine">MongoDB (school_db)</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Server Status</span>
+                  <strong style="color: #38A169;">Online (Port 5000)</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Total Students</span>
+                  <strong id="diagStudentCount">Loading...</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Total Staff</span>
+                  <strong id="diagStaffCount">Loading...</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Classes & Arms</span>
+                  <strong id="diagClassCount">12 Classes (1st - 12th)</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Transport Routes</span>
+                  <strong id="diagTransportCount">Loading...</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Library Books</span>
+                  <strong id="diagBookCount">Loading...</strong>
+                </div>
+                <div class="health-stat-row">
+                  <span>Subjects Registered</span>
+                  <strong id="diagSubjectCount">Loading...</strong>
+                </div>
+              </div>
+
+              <div style="margin-top: 10px; padding-top: 12px; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px;">
+                <button type="button" class="btn-secondary" onclick="exportFullDatabaseJson()" style="width: 100%; text-align: center;">
+                  Export Database Snapshot (JSON)
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ================= MODALS ================= -->
+  
+  <!-- MODAL: ADD STUDENT -->
+  <div class="modal-overlay" id="modalAddStudent">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Enroll New Student</h3>
+        <button class="btn-close" onclick="closeModal('modalAddStudent')">✕</button>
+      </div>
+      <form id="formAddStudent">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input type="text" name="firstName" required placeholder="e.g. Tolu">
+            </div>
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input type="text" name="lastName" required placeholder="e.g. Alabi">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Gender *</label>
+              <select name="gender" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Class *</label>
+              <select name="class" required>
+                <option value="1st Class">1st Class</option>
+                <option value="2nd Class">2nd Class</option>
+                <option value="3rd Class">3rd Class</option>
+                <option value="4th Class">4th Class</option>
+                <option value="5th Class">5th Class</option>
+                <option value="6th Class">6th Class</option>
+                <option value="7th Class">7th Class</option>
+                <option value="8th Class">8th Class</option>
+                <option value="9th Class">9th Class</option>
+                <option value="10th Class">10th Class</option>
+                <option value="11th Class">11th Class</option>
+                <option value="12th Class">12th Class</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Roll Number *</label>
+              <input type="number" name="rollNumber" required value="11" min="1">
+            </div>
+            <div class="form-group">
+              <label>Blood Group</label>
+              <select name="bloodGroup">
+                <option value="O+">O+</option>
+                <option value="A+">A+</option>
+                <option value="B+">B+</option>
+                <option value="AB+">AB+</option>
+                <option value="O-">O-</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Guardian Name *</label>
+            <input type="text" name="guardianName" required placeholder="e.g. Chief Babatunde Alabi">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Guardian Phone *</label>
+              <input type="tel" name="guardianPhone" required placeholder="+234 803 000 0000">
+            </div>
+            <div class="form-group">
+              <label>Guardian Email</label>
+              <input type="email" name="guardianEmail" placeholder="parent@domain.com">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalAddStudent')">Cancel</button>
+          <button type="submit" class="btn-primary">Register Student</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: MARK ATTENDANCE -->
+  <div class="modal-overlay" id="modalMarkAttendance">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Mark Class Attendance</h3>
+        <button class="btn-close" onclick="closeModal('modalMarkAttendance')">✕</button>
+      </div>
+      <form id="formMarkAttendance">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Class *</label>
+            <select name="className" id="markClassName" required>
+              <option value="1st Class">1st Class</option>
+              <option value="2nd Class">2nd Class</option>
+              <option value="3rd Class">3rd Class</option>
+              <option value="4th Class">4th Class</option>
+              <option value="5th Class">5th Class</option>
+              <option value="6th Class">6th Class</option>
+              <option value="7th Class">7th Class</option>
+              <option value="8th Class">8th Class</option>
+              <option value="9th Class">9th Class</option>
+              <option value="10th Class">10th Class</option>
+              <option value="11th Class">11th Class</option>
+              <option value="12th Class">12th Class</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Present Count</label>
+              <input type="number" name="present" value="32" min="0">
+            </div>
+            <div class="form-group">
+              <label>Late Count</label>
+              <input type="number" name="late" value="2" min="0">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Absent Count</label>
+              <input type="number" name="absent" value="1" min="0">
+            </div>
+            <div class="form-group">
+              <label>Day Status</label>
+              <select name="status">
+                <option value="present">All Present (Normal)</option>
+                <option value="late">Late Arrival</option>
+                <option value="absent">Absence Recorded</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalMarkAttendance')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Attendance</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: RECORD PAYMENT -->
+  <div class="modal-overlay" id="modalRecordPayment">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Record Fee Payment</h3>
+        <button class="btn-close" onclick="closeModal('modalRecordPayment')">✕</button>
+      </div>
+      <form id="formRecordPayment">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Invoice Number *</label>
+            <input type="text" name="invoiceNumber" id="payInvoiceNumber" required placeholder="e.g. INV-2024-004">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Payment Amount (₦) *</label>
+              <input type="number" name="amount" required placeholder="150000" min="1000">
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select name="method">
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Credit Card">Credit Card</option>
+                <option value="Cash">Cash Deposit</option>
+                <option value="Online Gateway">Online Gateway</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalRecordPayment')">Cancel</button>
+          <button type="submit" class="btn-primary">Confirm Payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE ANNOUNCEMENT -->
+  <div class="modal-overlay" id="modalCreateNotice">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Publish School Announcement</h3>
+        <button class="btn-close" onclick="closeModal('modalCreateNotice')">✕</button>
+      </div>
+      <form id="formCreateNotice">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Mid-Term Break Notice">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Audience</label>
+              <select name="targetAudience">
+                <option value="All">All School Community</option>
+                <option value="Parents">Parents Only</option>
+                <option value="Students">Students Only</option>
+                <option value="Teachers">Teachers Only</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Priority</label>
+              <select name="priority">
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Announcement Content *</label>
+            <textarea name="description" rows="3" required placeholder="Enter the detailed announcement text..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalCreateNotice')">Cancel</button>
+          <button type="submit" class="btn-primary">Post Announcement</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: AI REPORT GENERATOR -->
+  <div class="modal-overlay" id="modalAiReport">
+    <div class="modal-card" style="width: 620px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="sparkles" style="color: #D9943B;"></i>
+          <h3>school_db Executive Intelligence Report</h3>
+        </div>
+        <button class="btn-close" onclick="closeModal('modalAiReport')">✕</button>
+      </div>
+      <div class="modal-body" id="aiReportContent">
+        <!-- Rendered by AI reporter logic -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="closeModal('modalAiReport')">Close</button>
+        <button class="btn-primary" onclick="window.print()">🖨️ Print / Export PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: AUTHENTICATION (LOGIN & SIGN UP) -->
+  <div class="modal-overlay" id="modalAuth">
+    <div class="modal-card" style="width: 480px;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="brand-logo-icon" style="width: 28px; height: 28px; font-size: 13px;"><i data-lucide="database" style="width: 15px; height: 15px;"></i></div>
+          <h3 id="authModalTitle">school_db Security</h3>
+        </div>
+        <button class="btn-close" onclick="closeModal('modalAuth')">✕</button>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabBtnLogin" onclick="switchAuthTab('login')">
+          <i data-lucide="log-in" style="width: 14px; margin-right: 4px;"></i> Sign In
+        </button>
+        <button class="auth-tab-btn" id="tabBtnRegister" onclick="switchAuthTab('register')">
+          <i data-lucide="user-plus" style="width: 14px; margin-right: 4px;"></i> Create Account
+        </button>
+      </div>
+
+      <!-- TAB 1: SIGN IN (LOGIN) -->
+      <div class="auth-tab-content active" id="tabContentLogin">
+        <div class="demo-credentials-box">
+          <div><strong>Demo Admin Account:</strong></div>
+          <div>Email: <code>admin@greenfield.edu</code></div>
+          <div>Password: <code>admin123</code> (Role: Super Admin)</div>
+          <button type="button" class="btn-fill-demo" id="btnFillDemoCreds">Fill Demo Credentials</button>
+        </div>
+
+        <form id="formLogin">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" name="email" id="loginEmail" required placeholder="admin@greenfield.edu">
+            </div>
+
+            <div class="form-group">
+              <label>Password *</label>
+              <input type="password" name="password" id="loginPassword" required placeholder="••••••••">
+            </div>
+
+            <button type="submit" class="btn-primary" style="padding: 11px; margin-top: 6px;">
+              Sign In to school_db
+            </button>
+          </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          Don't have an account? <a href="#" onclick="switchAuthTab('register')" style="color: var(--primary-accent); font-weight: 600;">Create an account</a>
+        </div>
+      </div>
+
+      <!-- TAB 2: SIGN UP (REGISTER) -->
+      <div class="auth-tab-content" id="tabContentRegister">
+        <form id="formRegister">
+          <div style="display: flex; flex-direction: column; gap: 14px;">
+            <div class="form-group">
+              <label>Full Name *</label>
+              <input type="text" name="name" required placeholder="e.g. Dr. Ngozi Adeleke">
+            </div>
+
+            <div class="form-group">
+              <label>Email Address *</label>
+              <input type="email" name="email" required placeholder="name@greenfield.edu">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Security Role *</label>
+                <select name="role" required>
+                  <option value="Admin">Administrator</option>
+                  <option value="Teacher">Teacher / Faculty</option>
+                  <option value="Staff">Non-Teaching Staff</option>
+                  <option value="Student">Student Portal</option>
+                  <option value="Super Admin">Super Admin</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Department</label>
+                <select name="department">
+                  <option value="Administration">Administration</option>
+                  <option value="Sciences">Sciences</option>
+                  <option value="Mathematics">Mathematics</option>
+                  <option value="Humanities">Humanities</option>
+                  <option value="ICT & Robotics">ICT & Robotics</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Create Password *</label>
+              <input type="password" name="password" required minlength="6" placeholder="At least 6 characters">
+            </div>
+
+            <button type="submit" class="btn-primary" style="padding: 11px; margin-top: 6px;">
+              Create school_db Account
+            </button>
+          </div>
+        </form>
+
+        <div style="text-align: center; margin-top: 14px; font-size: 12px; color: var(--text-muted);">
+          Already have an account? <a href="#" onclick="switchAuthTab('login')" style="color: var(--primary-accent); font-weight: 600;">Sign In here</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: STUDENT PROFILE VIEW -->
+  <div class="modal-overlay" id="modalStudentProfile">
+    <div class="modal-card" style="width: 580px;">
+      <div class="modal-header">
+        <h3>Student Official Profile</h3>
+        <button class="btn-close" onclick="closeModal('modalStudentProfile')">✕</button>
+      </div>
+      <div class="modal-body profile-modal-body">
+        <div class="student-hero-card">
+          <div class="student-large-avatar" id="profAvatar">A</div>
+          <div class="student-hero-info">
+            <h4 id="profFullName">Student Name</h4>
+            <p><span id="profStudentId">STU-2024-001</span> • <strong id="profClass">1st Class</strong> (Roll #<span id="profRoll">1</span>)</p>
+          </div>
+        </div>
+
+        <div class="profile-stats-grid">
+          <div class="profile-stat-box">
+            <div class="stat-sub">Attendance Rate</div>
+            <div class="stat-main" id="profAttendance" style="color: #38A169;">98%</div>
+          </div>
+          <div class="profile-stat-box">
+            <div class="stat-sub">Performance</div>
+            <div class="stat-main" id="profPerformance" style="color: #3182CE;">Excellent</div>
+          </div>
+          <div class="profile-stat-box">
+            <div class="stat-sub">Fee Standing</div>
+            <div class="stat-main" id="profFeeStatus" style="color: #38A169;">Paid</div>
+          </div>
+        </div>
+
+        <div class="profile-details-section">
+          <h5 style="font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 4px;">Personal & Guardian Details</h5>
+          <div class="profile-details-row">
+            <span>Gender:</span>
+            <strong id="profGender">Female</strong>
+          </div>
+          <div class="profile-details-row">
+            <span>Blood Group:</span>
+            <strong id="profBlood">O+</strong>
+          </div>
+          <div class="profile-details-row">
+            <span>Student Email:</span>
+            <strong id="profEmail">student@greenfield.edu</strong>
+          </div>
+          <div class="profile-details-row">
+            <span>Guardian Name:</span>
+            <strong id="profGuardianName">Chief Parent</strong>
+          </div>
+          <div class="profile-details-row">
+            <span>Guardian Phone:</span>
+            <strong id="profGuardianPhone">+234 800 000 0000</strong>
+          </div>
+          <div class="profile-details-row">
+            <span>Home Address:</span>
+            <strong id="profAddress">Lekki Phase 1, Lagos</strong>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalStudentProfile')">Close</button>
+        <button type="button" class="btn-primary" id="btnProfileViewReportCard">
+          <i data-lucide="file-text" style="width: 14px; margin-right: 6px;"></i> Terminal Report Card
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: EDIT STUDENT -->
+  <div class="modal-overlay" id="modalEditStudent">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Edit Student Record</h3>
+        <button class="btn-close" onclick="closeModal('modalEditStudent')">✕</button>
+      </div>
+      <form id="formEditStudent">
+        <input type="hidden" name="studentId" id="editStudentId">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>First Name *</label>
+              <input type="text" name="firstName" id="editFirstName" required>
+            </div>
+            <div class="form-group">
+              <label>Last Name *</label>
+              <input type="text" name="lastName" id="editLastName" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Class *</label>
+              <select name="class" id="editClass" required>
+                <option value="1st Class">1st Class</option>
+                <option value="2nd Class">2nd Class</option>
+                <option value="3rd Class">3rd Class</option>
+                <option value="4th Class">4th Class</option>
+                <option value="5th Class">5th Class</option>
+                <option value="6th Class">6th Class</option>
+                <option value="7th Class">7th Class</option>
+                <option value="8th Class">8th Class</option>
+                <option value="9th Class">9th Class</option>
+                <option value="10th Class">10th Class</option>
+                <option value="11th Class">11th Class</option>
+                <option value="12th Class">12th Class</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Roll Number *</label>
+              <input type="number" name="rollNumber" id="editRollNumber" required min="1">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Performance Category</label>
+              <select name="performanceCategory" id="editPerformance">
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Average">Average</option>
+                <option value="Below Average">Below Average</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Attendance Rate (%)</label>
+              <input type="number" name="attendanceRate" id="editAttendanceRate" min="0" max="100" step="0.1">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Guardian Name *</label>
+            <input type="text" name="guardianName" id="editGuardianName" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Guardian Phone *</label>
+              <input type="tel" name="guardianPhone" id="editGuardianPhone" required>
+            </div>
+            <div class="form-group">
+              <label>Fee Standing</label>
+              <select name="feeStatus" id="editFeeStatus">
+                <option value="Paid">Paid</option>
+                <option value="Partial">Partial</option>
+                <option value="Pending">Pending</option>
+                <option value="Overdue">Overdue</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalEditStudent')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: OFFICIAL STUDENT REPORT CARD -->
+  <div class="modal-overlay" id="modalReportCard">
+    <div class="modal-card" style="width: 720px; max-width: 95vw;">
+      <div class="modal-header">
+        <h3>Official Terminal Student Report Card</h3>
+        <button class="btn-close" onclick="closeModal('modalReportCard')">✕</button>
+      </div>
+      <div class="modal-body" id="reportCardPrintArea">
+        <div class="report-card-sheet">
+          <div class="report-header">
+            <h2 id="rcSchoolName">GREENFIELD HIGH SCHOOL</h2>
+            <p id="rcSchoolMotto">Excellence in Knowledge, Innovation & Character</p>
+            <p id="rcSchoolSession">2024/2025 Academic Session • Continuous Assessment Report</p>
+          </div>
+
+          <div class="report-student-meta">
+            <div>
+              <span>Student Name:</span>
+              <strong id="rcStudentName">Amara Kalu</strong>
+            </div>
+            <div>
+              <span>Student ID:</span>
+              <strong id="rcStudentId">STU-2024-001</strong>
+            </div>
+            <div>
+              <span>Class:</span>
+              <strong id="rcClassName">1st Class</strong>
+            </div>
+            <div>
+              <span>Roll Number:</span>
+              <strong id="rcRollNumber">1</strong>
+            </div>
+          </div>
+
+          <table class="report-table">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Marks Obtained</th>
+                <th>Max Marks</th>
+                <th>Grade</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody id="rcSubjectsBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+
+          <div class="report-summary-box">
+            <div>Total: <strong id="rcTotalMarks">470 / 500</strong></div>
+            <div>Percentage: <strong id="rcPercentage">94%</strong></div>
+            <div>Overall Grade: <strong id="rcOverallGrade" style="color: #38A169;">A+</strong></div>
+            <div>Class Rank: <strong id="rcRank">1st</strong></div>
+            <div>Attendance: <strong id="rcAttendance">98%</strong></div>
+          </div>
+
+          <div style="font-size: 12px; margin-bottom: 20px;">
+            <strong>Class Teacher's Remarks:</strong>
+            <p id="rcTeacherRemarks" style="color: var(--text-muted); font-style: italic; margin-top: 4px;">
+              Exceptional academic excellence, sharp analytical reasoning, and exemplary attitude.
+            </p>
+          </div>
+
+          <div class="report-signatures">
+            <div class="signature-line">Class Form Teacher</div>
+            <div class="signature-line">School Principal / Head</div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="closeModal('modalReportCard')">Close</button>
+        <button type="button" class="btn-primary" onclick="printReportCard()">
+          <i data-lucide="printer" style="width: 14px; margin-right: 6px;"></i> Print / Save as PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD SUBJECT -->
+  <div class="modal-overlay" id="modalAddSubject">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add Academic Subject</h3>
+        <button class="btn-close" onclick="closeModal('modalAddSubject')">✕</button>
+      </div>
+      <form id="formAddSubject">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Subject Code</label>
+              <input type="text" name="code" placeholder="e.g. MATH-102">
+            </div>
+            <div class="form-group">
+              <label>Subject Name *</label>
+              <input type="text" name="name" required placeholder="e.g. Agricultural Science">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Department</label>
+              <select name="department">
+                <option value="Sciences">Sciences</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Humanities">Humanities</option>
+                <option value="Social Sciences">Social Sciences</option>
+                <option value="ICT & Robotics">ICT & Robotics</option>
+                <option value="Languages">Languages</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Weekly Periods</label>
+              <input type="number" name="weeklyPeriods" value="4" min="1" max="10">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Assigned Instructor Name</label>
+            <input type="text" name="teacherName" placeholder="e.g. Dr. Ibrahim Sani">
+          </div>
+
+          <div class="form-group">
+            <label>Description / Learning Objective</label>
+            <textarea name="description" rows="2" placeholder="Course outline and primary learning goals..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalAddSubject')">Cancel</button>
+          <button type="submit" class="btn-primary">Register Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD TRANSPORT ROUTE -->
+  <div class="modal-overlay" id="modalAddTransport">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add Transport Route</h3>
+        <button class="btn-close" onclick="closeModal('modalAddTransport')">✕</button>
+      </div>
+      <form id="formAddTransport">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Route Name & Corridor *</label>
+            <input type="text" name="routeName" required placeholder="e.g. Ajah to Campus Express">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Vehicle Plate / Bus Number *</label>
+              <input type="text" name="vehicleNumber" required placeholder="e.g. BUS-05 (LAG-321-XY)">
+            </div>
+            <div class="form-group">
+              <label>Passenger Capacity</label>
+              <input type="number" name="capacity" value="30" min="5" max="70">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Assigned Driver Name *</label>
+              <input type="text" name="driverName" required placeholder="e.g. Mr. Usman Danladi">
+            </div>
+            <div class="form-group">
+              <label>Driver Phone Number *</label>
+              <input type="tel" name="driverPhone" required placeholder="+234 800 000 0000">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Monthly Transport Fee (₦)</label>
+              <input type="number" name="monthlyFee" value="30000" min="0">
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status">
+                <option value="Active">Active</option>
+                <option value="Maintenance">Maintenance</option>
+                <option value="Standby">Standby</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalAddTransport')">Cancel</button>
+          <button type="submit" class="btn-primary">Create Route</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ADD LIBRARY BOOK -->
+  <div class="modal-overlay" id="modalAddBook">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add Book to Library Catalogue</h3>
+        <button class="btn-close" onclick="closeModal('modalAddBook')">✕</button>
+      </div>
+      <form id="formAddBook">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Book Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Fundamentals of Robotics">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Author *</label>
+              <input type="text" name="author" required placeholder="e.g. Dr. Ngozi Eze">
+            </div>
+            <div class="form-group">
+              <label>Category</label>
+              <select name="category">
+                <option value="Science">Science</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Technology">Technology</option>
+                <option value="Literature">Literature</option>
+                <option value="History">History</option>
+                <option value="Language">Language</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Total Copies *</label>
+              <input type="number" name="totalCopies" value="10" min="1" required>
+            </div>
+            <div class="form-group">
+              <label>Shelf Location *</label>
+              <input type="text" name="shelfLocation" value="D-04" required placeholder="e.g. C-02">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalAddBook')">Cancel</button>
+          <button type="submit" class="btn-primary">Add Book</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: ISSUE BOOK TO STUDENT -->
+  <div class="modal-overlay" id="modalIssueBook">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Issue Library Book to Student</h3>
+        <button class="btn-close" onclick="closeModal('modalIssueBook')">✕</button>
+      </div>
+      <form id="formIssueBook">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Select Book Title *</label>
+            <select name="bookTitle" id="issueBookSelect" required>
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student ID *</label>
+              <input type="text" name="studentId" id="issueStudentId" required placeholder="e.g. STU-2024-001">
+            </div>
+            <div class="form-group">
+              <label>Student Name *</label>
+              <input type="text" name="studentName" id="issueStudentName" required placeholder="e.g. Amara Kalu">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Class</label>
+              <select name="className">
+                <option value="1st Class">1st Class</option>
+                <option value="2nd Class">2nd Class</option>
+                <option value="3rd Class">3rd Class</option>
+                <option value="4th Class">4th Class</option>
+                <option value="5th Class">5th Class</option>
+                <option value="6th Class">6th Class</option>
+                <option value="7th Class">7th Class</option>
+                <option value="8th Class">8th Class</option>
+                <option value="9th Class">9th Class</option>
+                <option value="10th Class">10th Class</option>
+                <option value="11th Class">11th Class</option>
+                <option value="12th Class">12th Class</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Return Due Date</label>
+              <input type="date" name="dueDate" id="issueDueDate">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalIssueBook')">Cancel</button>
+          <button type="submit" class="btn-primary">Issue Book</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: SCHEDULE NEW EXAM -->
+  <div class="modal-overlay" id="modalScheduleExam">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Schedule New Examination</h3>
+        <button class="btn-close" onclick="closeModal('modalScheduleExam')">✕</button>
+      </div>
+      <form id="formScheduleExam">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Examination Title *</label>
+            <input type="text" name="title" required placeholder="e.g. Second Term Mock Assessment">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Academic Term</label>
+              <select name="term">
+                <option value="First Term">First Term</option>
+                <option value="Second Term">Second Term</option>
+                <option value="Third Term">Third Term</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <select name="status">
+                <option value="Scheduled">Scheduled</option>
+                <option value="Ongoing">Ongoing</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Start Date *</label>
+              <input type="date" name="startDate" required>
+            </div>
+            <div class="form-group">
+              <label>End Date *</label>
+              <input type="date" name="endDate" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Exam Description / Instructions</label>
+            <textarea name="description" rows="2" placeholder="Examination guidelines and instructions..."></textarea>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalScheduleExam')">Cancel</button>
+          <button type="submit" class="btn-primary">Schedule Assessment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: RECORD STUDENT MARKS -->
+  <div class="modal-overlay" id="modalRecordMarks">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Record Student Examination Marks</h3>
+        <button class="btn-close" onclick="closeModal('modalRecordMarks')">✕</button>
+      </div>
+      <form id="formRecordMarks">
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Student ID *</label>
+              <input type="text" name="studentId" required placeholder="e.g. STU-2024-001">
+            </div>
+            <div class="form-group">
+              <label>Student Full Name *</label>
+              <input type="text" name="studentName" required placeholder="e.g. Amara Kalu">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Class *</label>
+              <select name="className" required>
+                <option value="1st Class">1st Class</option>
+                <option value="2nd Class">2nd Class</option>
+                <option value="3rd Class">3rd Class</option>
+                <option value="4th Class">4th Class</option>
+                <option value="5th Class">5th Class</option>
+                <option value="6th Class">6th Class</option>
+                <option value="7th Class">7th Class</option>
+                <option value="8th Class">8th Class</option>
+                <option value="9th Class">9th Class</option>
+                <option value="10th Class">10th Class</option>
+                <option value="11th Class">11th Class</option>
+                <option value="12th Class">12th Class</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Class Rank</label>
+              <input type="number" name="classRank" value="1" min="1">
+            </div>
+          </div>
+
+          <div style="background: #F8F7F4; padding: 12px; border-radius: 6px; margin: 6px 0;">
+            <div style="font-size: 12px; font-weight: 700; margin-bottom: 8px;">Subject Scores (0 - 100):</div>
+            <div class="form-row" style="margin-bottom: 8px;">
+              <div class="form-group">
+                <label>Mathematics</label>
+                <input type="number" name="math" value="90" min="0" max="100">
+              </div>
+              <div class="form-group">
+                <label>English Language</label>
+                <input type="number" name="english" value="88" min="0" max="100">
+              </div>
+            </div>
+            <div class="form-row" style="margin-bottom: 8px;">
+              <div class="form-group">
+                <label>General Science</label>
+                <input type="number" name="science" value="92" min="0" max="100">
+              </div>
+              <div class="form-group">
+                <label>Social Studies</label>
+                <input type="number" name="social" value="85" min="0" max="100">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Computer Studies</label>
+              <input type="number" name="computer" value="94" min="0" max="100">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Teacher's Comments / Feedback</label>
+            <input type="text" name="teacherRemarks" value="Shows wonderful initiative and brilliant academic progress.">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal('modalRecordMarks')">Cancel</button>
+          <button type="submit" class="btn-primary">Save Gradebook Entry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- FRONTEND SCRIPT -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

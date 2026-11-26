@@ -1,0 +1,31 @@
+{
+  "name": "school-database-management",
+  "version": "1.0.0",
+  "description": "Full School Database Management System using Node.js, Express.js, and MongoDB",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "seed": "node src/seeds/seedRunner.js",
+    "check": "node scripts/staticCheck.js"
+  },
+  "keywords": [
+    "school-management",
+    "school-database",
+    "express",
+    "nodejs",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "Google Antigravity Team & User",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^8.9.5",
+    "morgan": "^1.10.0"
+  }
+}
